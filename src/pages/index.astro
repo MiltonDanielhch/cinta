@@ -2,592 +2,166 @@
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import { project } from "../data/project";
+import { products } from "../data/products";
 
-const waText = encodeURIComponent(
-  `Hola, quiero conocer los moños de ${project.brand.name}. Vi su página web.`
-);
-const whatsappLink = `https://wa.me/${project.brand.whatsapp}?text=${waText}`;
+const wa = (msg: string) =>
+  `https://wa.me/${project.brand.whatsapp}?text=${encodeURIComponent(msg)}`;
+
+const generalWa = wa(`Hola, quiero conocer los moños de ${project.brand.name}.`);
 const year = new Date().getFullYear();
 ---
 
-<Layout
-  title={`${project.brand.name} | ${project.brand.slogan}`}
-  description={project.brand.description}
->
+<Layout title={`${project.brand.name} | ${project.brand.slogan}`} description={project.brand.subtitle}>
   <header class="site-header">
     <div class="header-inner">
       <a class="logo" href="#inicio">
         <span class="logo-mark" aria-hidden="true">🎀</span>
         <span class="logo-text">{project.brand.name}</span>
       </a>
-
       <nav class="nav" aria-label="Navegación principal">
-        <a href="#proyecto">Proyecto</a>
-        <a href="#producto">Producto</a>
-        <a href="#tecnologia">Tecnología</a>
-        <a href="#numeros">Números</a>
-        <a href="#impacto">Impacto</a>
-        <a href="#cierre">Cierre</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#promos">Promos</a>
+        <a href="#pedir">Cómo pedir</a>
+        <a href="#marca">La marca</a>
+        <a href="#contacto">Contacto</a>
       </nav>
-
-      <a class="btn small" href={whatsappLink} target="_blank" rel="noopener">
-        WhatsApp
-      </a>
+      <a class="btn small" href={generalWa} target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </header>
 
   <main>
     <section id="inicio" class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
-
       <div class="container hero-grid">
         <div class="hero-copy">
           <span class="badge">{project.brand.location}</span>
           <h1>{project.brand.name}</h1>
           <p class="slogan">{project.brand.slogan}</p>
           <p class="lead">{project.brand.subtitle}</p>
-
           <div class="hero-actions">
-            <a
-              class="btn primary"
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener"
-            >
-              Pedir por WhatsApp
-            </a>
-            <a class="btn ghost" href="#producto">Ver catálogo</a>
+            <a class="btn primary" href={generalWa} target="_blank" rel="noopener">Pedir por WhatsApp</a>
+            <a class="btn ghost" href="#catalogo">Ver catálogo</a>
           </div>
-
           <ul class="hero-highlights">
-            {project.highlights.map((item) => (
-              <li>
-                <strong>{item.label}:</strong> {item.value}
-              </li>
+            {project.highlights.map((h) => (
+              <li><strong>{h.label}:</strong> {h.value}</li>
             ))}
           </ul>
         </div>
 
         <div class="hero-visual">
           <div class="bow-card">
-            <svg
-              viewBox="0 0 240 240"
-              role="img"
-              aria-label="Moño artesanal"
-            >
+            <svg viewBox="0 0 240 240" role="img" aria-label="Moño artesanal">
               <defs>
                 <linearGradient id="bowPink" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#ffd7e1" />
-                  <stop offset="100%" stop-color="#d94f70" />
+                  <stop offset="0%" stop-color="#ffd7e1" /><stop offset="100%" stop-color="#d94f70" />
                 </linearGradient>
                 <linearGradient id="bowGold" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#f4d99b" />
-                  <stop offset="100%" stop-color="#b9863c" />
+                  <stop offset="0%" stop-color="#f4d99b" /><stop offset="100%" stop-color="#b9863c" />
                 </linearGradient>
               </defs>
-
-              <path
-                d="M120 120 C82 68, 28 78, 44 120 C28 162, 82 172, 120 120 Z"
-                fill="url(#bowPink)"
-                opacity=".95"
-              />
-              <path
-                d="M120 120 C158 68, 212 78, 196 120 C212 162, 158 172, 120 120 Z"
-                fill="url(#bowPink)"
-                opacity=".95"
-              />
-              <path
-                d="M104 132 C92 168, 76 190, 58 208"
-                fill="none"
-                stroke="url(#bowPink)"
-                stroke-width="14"
-                stroke-linecap="round"
-              />
-              <path
-                d="M136 132 C148 168, 164 190, 182 208"
-                fill="none"
-                stroke="url(#bowPink)"
-                stroke-width="14"
-                stroke-linecap="round"
-              />
+              <path d="M120 120 C82 68, 28 78, 44 120 C28 162, 82 172, 120 120 Z" fill="url(#bowPink)" opacity=".95" />
+              <path d="M120 120 C158 68, 212 78, 196 120 C212 162, 158 172, 120 120 Z" fill="url(#bowPink)" opacity=".95" />
+              <path d="M104 132 C92 168, 76 190, 58 208" fill="none" stroke="url(#bowPink)" stroke-width="14" stroke-linecap="round" />
+              <path d="M136 132 C148 168, 164 190, 182 208" fill="none" stroke="url(#bowPink)" stroke-width="14" stroke-linecap="round" />
               <circle cx="120" cy="120" r="20" fill="url(#bowGold)" />
               <circle cx="120" cy="120" r="10" fill="#fff8f1" opacity=".55" />
             </svg>
-
             <div class="floating-pill one">Artesanal</div>
             <div class="floating-pill two">Personalizado</div>
-            <div class="floating-pill three">Web + e-commerce</div>
+            <div class="floating-pill three">12 – 20 Bs.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <Section id="proyecto" eyebrow="01" title="Resumen e introducción">
-      <div class="grid cards-2">
-        <article class="card">
-          <h3>Resumen</h3>
-          <div class="prose">
-            {project.summary.paragraphs.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>Introducción</h3>
-          <div class="prose">
-            {project.introduction.paragraphs.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </div>
-        </article>
-      </div>
-    </Section>
-
-    <Section id="problema" eyebrow="02" title="Planteamiento del problema">
-      <div class="stack">
-        <div class="prose">
-          {project.problem.description.map((paragraph) => (
-            <p>{paragraph}</p>
-          ))}
-        </div>
-
-        <div class="callout">
-          <h3>Formulación del problema</h3>
-          <p>{project.problem.formulation}</p>
-        </div>
-
-        <article class="card">
-          <h3>Preguntas complementarias</h3>
-          <ul class="check-list">
-            {project.problem.questions.map((question) => (
-              <li>{question}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-    </Section>
-
-    <Section id="objetivos" eyebrow="03" title="Objetivos">
-      <article class="card objective-general">
-        <h3>Objetivo general</h3>
-        <p>{project.objectives.general}</p>
-      </article>
-
-      <h3 class="subheading">Objetivos específicos</h3>
-      <div class="grid cards-2">
-        {project.objectives.specific.map((objective, index) => (
-          <article class="card mini-card">
-            <span class="number">{index + 1}</span>
-            <p>{objective}</p>
-          </article>
-        ))}
-      </div>
-    </Section>
-
-    <Section id="justificacion" eyebrow="04" title="Justificación">
-      <div class="grid cards-3">
-        {project.justification.map((item) => (
-          <article class="card">
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </article>
-        ))}
-      </div>
-    </Section>
-
-    <Section id="marco" eyebrow="05" title="Marco teórico">
-      <div class="accordion">
-        {project.framework.map((item) => (
-          <details class="acc-item">
-            <summary>{item.title}</summary>
-            <div class="prose">
-              <p>{item.text}</p>
+    <Section id="catalogo" eyebrow="Catálogo" title="Elige tu moño">
+      <div class="product-grid">
+        {products.map((p) => (
+          <article class="card product-tile">
+            {p.img
+              ? <img class="product-img" src={p.img} alt={p.name} loading="lazy" width="600" height="600" />
+              : <div class="product-img placeholder" aria-hidden="true">🎀</div>}
+            <div class="product-body">
+              <span class="pill">{p.line}</span>
+              <h4>{p.name}</h4>
+              <span class="price">{p.price}</span>
+              <a class="btn primary" href={wa(`Hola, quiero el moño "${p.name}".`)} target="_blank" rel="noopener">
+                Pedir este
+              </a>
             </div>
-          </details>
+          </article>
         ))}
       </div>
     </Section>
-
-    <Section id="metodologia" eyebrow="06" title="Metodología">
-      <p class="section-note">{project.methodology.approach}</p>
-
-      <ol class="timeline">
-        {project.methodology.phases.map((phase) => (
-          <li>
-            <span class="timeline-marker"></span>
-            <article class="card">
-              <h3>{phase.title}</h3>
-              <ul class="bullet-list">
-                {phase.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </article>
-          </li>
-        ))}
-      </ol>
-    </Section>
-
-    <Section id="producto" eyebrow="07" title="Desarrollo del proyecto">
-      <article class="card brand-story">
-        <h3>Filosofía de la marca</h3>
-        <p>{project.development.philosophy}</p>
-      </article>
-
-      <h3 class="subheading">Público objetivo</h3>
+    
+    <Section id="promos" eyebrow="Promos" title="Packs para regalar">
       <div class="grid cards-3">
-        {project.development.audiences.map((audience) => (
+        {project.promos.map((p) => (
           <article class="card">
-            <span class="pill">{audience.style}</span>
-            <h4>{audience.name}</h4>
-            <p>{audience.need}</p>
-          </article>
-        ))}
-      </div>
-
-      <h3 class="subheading">Línea de productos</h3>
-      <div class="grid cards-3">
-        {project.development.productLines.map((line) => (
-          <article class="card product-card">
-            <span class="pill">{line.audience}</span>
-            <h3>{line.name}</h3>
-            <p>{line.features}</p>
-
-            <dl class="mini-specs">
-              <div>
-                <dt>Costo</dt>
-                <dd>{line.cost}</dd>
-              </div>
-              <div>
-                <dt>Precio</dt>
-                <dd>{line.price}</dd>
-              </div>
-              <div>
-                <dt>Ganancia</dt>
-                <dd>{line.profit}</dd>
-              </div>
-            </dl>
-
-            <p class="muted">{line.note}</p>
-          </article>
-        ))}
-      </div>
-
-      <h3 class="subheading">Proceso de elaboración</h3>
-      <ol class="timeline compact">
-        {project.development.process.map((step) => (
-          <li>
-            <span class="timeline-marker"></span>
-            <article class="card">
-              <h4>Paso {step.step}: {step.title}</h4>
-              <p>{step.detail}</p>
-            </article>
-          </li>
-        ))}
-      </ol>
-
-      <h3 class="subheading">Tabla de costos y precios de venta</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Línea</th>
-              <th>Público</th>
-              <th>Costo</th>
-              <th>Precio</th>
-              <th>Ganancia</th>
-              <th>Explicación</th>
-            </tr>
-          </thead>
-          <tbody>
-            {project.development.productLines.map((line) => (
-              <tr>
-                <td>{line.name}</td>
-                <td>{line.audience}</td>
-                <td>{line.cost}</td>
-                <td>{line.price}</td>
-                <td>{line.profit}</td>
-                <td>{line.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <h3 class="subheading">Promociones</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th>Detalle</th>
-              <th>Precio sugerido</th>
-            </tr>
-          </thead>
-          <tbody>
-            {project.development.promotions.map((promo) => (
-              <tr>
-                <td>{promo.name}</td>
-                <td>{promo.detail}</td>
-                <td>{promo.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <h3 class="subheading">Estrategias de comercialización</h3>
-      <ul class="check-list">
-        {project.development.commercialization.map((strategy) => (
-          <li>{strategy}</li>
-        ))}
-      </ul>
-    </Section>
-
-    <Section id="tecnologia" eyebrow="08" title="Componente tecnológico">
-      <p class="section-note">{project.tech.intro}</p>
-
-      <h3 class="subheading">Propósito de la página web</h3>
-      <div class="grid cards-3">
-        {project.tech.purpose.map((purpose) => (
-          <article class="card">
-            <p>{purpose}</p>
-          </article>
-        ))}
-      </div>
-
-      <h3 class="subheading">Fases de implementación tecnológica</h3>
-      <div class="grid cards-3">
-        {project.tech.phases.map((phase) => (
-          <article class="card">
-            <h4>{phase.title}</h4>
-            <ul class="bullet-list">
-              {phase.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
-
-      <div class="grid cards-2">
-        <article class="card">
-          <h3>Estructura sugerida de la página web</h3>
-          <ul class="bullet-list">
-            {project.tech.structure.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Herramientas tecnológicas recomendadas</h3>
-          <ul class="bullet-list">
-            {project.tech.tools.map((tool) => (
-              <li>{tool}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Beneficios del componente tecnológico</h3>
-          <ul class="check-list">
-            {project.tech.benefits.map((benefit) => (
-              <li>{benefit}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Indicadores de éxito digital</h3>
-          <ul class="bullet-list">
-            {project.tech.metrics.map((metric) => (
-              <li>{metric}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-    </Section>
-
-    <Section id="foda" eyebrow="09" title="Análisis FODA">
-      <div class="foda-grid">
-        <article class="foda-card strength">
-          <h3>Fortalezas</h3>
-          <ul>
-            {project.foda.strengths.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="foda-card opportunity">
-          <h3>Oportunidades</h3>
-          <ul>
-            {project.foda.opportunities.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="foda-card weakness">
-          <h3>Debilidades</h3>
-          <ul>
-            {project.foda.weaknesses.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article class="foda-card threat">
-          <h3>Amenazas</h3>
-          <ul>
-            {project.foda.threats.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-    </Section>
-
-    <Section id="numeros" eyebrow="10" title="Análisis financiero referencial">
-      <p class="section-note">{project.finance.intro}</p>
-
-      <div class="grid cards-4">
-        <article class="metric">
-          <span>Costo variable</span>
-          <strong>{project.finance.variableCost}</strong>
-        </article>
-
-        <article class="metric">
-          <span>Margen promedio</span>
-          <strong>{project.finance.margin.contribution}</strong>
-        </article>
-
-        <article class="metric">
-          <span>Punto de equilibrio</span>
-          <strong>{project.finance.equilibrium.units}</strong>
-        </article>
-
-        <article class="metric">
-          <span>Ganancia proyectada</span>
-          <strong>{project.finance.projection.net}</strong>
-        </article>
-      </div>
-
-      <h3 class="subheading">Costos fijos mensuales estimados</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th>Rango estimado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {project.finance.fixedCosts.map((cost) => (
-              <tr>
-                <td>{cost.concept}</td>
-                <td>{cost.range}</td>
-              </tr>
-            ))}
-            <tr>
-              <td><strong>Total estimado</strong></td>
-              <td><strong>{project.finance.fixedTotal}</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="grid cards-3">
-        <article class="card">
-          <h4>Margen de contribución</h4>
-          <p>{project.finance.margin.formula}</p>
-          <p class="muted">
-            Precio promedio: {project.finance.margin.averagePrice}<br />
-            Costo variable promedio: {project.finance.margin.averageCost}
-          </p>
-        </article>
-
-        <article class="card">
-          <h4>Punto de equilibrio</h4>
-          <p>{project.finance.equilibrium.interpretation}</p>
-        </article>
-
-        <article class="card">
-          <h4>Proyección sencilla</h4>
-          <p>{project.finance.projection.interpretation}</p>
-        </article>
-      </div>
-    </Section>
-
-    <Section id="impacto" eyebrow="11" title="Impacto del proyecto">
-      <div class="grid cards-3">
-        {project.impact.map((block) => (
-          <article class="card">
-            <h3>{block.title}</h3>
-            <ul class="check-list">
-              {block.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
+            <h3>{p.name}</h3>
+            <p class="muted">{p.detail}</p>
+            <p style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#c94267;margin:.25rem 0 .75rem;">{p.price}</p>
+            <a class="btn ghost" href={wa(`Hola, quiero el ${p.name}.`)} target="_blank" rel="noopener">Lo quiero</a>
           </article>
         ))}
       </div>
     </Section>
 
-    <Section id="conclusion" eyebrow="12" title="Conclusión">
-      <article class="card prose">
-        {project.conclusion.paragraphs.map((paragraph) => (
-          <p>{paragraph}</p>
+    <Section id="pedir" eyebrow="Fácil" title="Cómo pedir en 3 pasos">
+      <div class="grid cards-3">
+        {project.steps.map((s) => (
+          <article class="card mini-card">
+            <span class="number">{s.n}</span>
+            <div>
+              <h4>{s.title}</h4>
+              <p class="muted" style="margin:0;">{s.desc}</p>
+            </div>
+          </article>
         ))}
+      </div>
+    </Section>
+
+    <Section id="marca" eyebrow="La marca" title="Hecho con cariño">
+      <article class="card">
+        <p style="font-size:1.1rem;max-width:70ch;">{project.about}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;">
+          {project.values.map((v) => <span class="pill">{v}</span>)}
+        </div>
       </article>
     </Section>
 
     <section id="cierre" class="section closing-section">
       <div class="container">
         <div class="verse-card">
-          <span class="eyebrow">13</span>
-          <h2>Dicho y versículo final</h2>
+          <span class="eyebrow">Cierre</span>
+          <h2>Hecho con fe y cariño</h2>
 
-          <p class="quote">“{project.closing.quote1}”</p>
-          <p class="quote">“{project.closing.quote2}”</p>
-          <cite>— {project.closing.reference}</cite>
+          <p class="quote">“El que siembra llorando, cosecha gozando; el que trabaja con amor, recibe con alegría.”</p>
+          <p class="quote">“El Señor tu Dios bendecirá todo lo que emprendas y todo trabajo de tus manos.”</p>
+          <cite>— Deuteronomio 28:12</cite>
 
-          <p class="closing-message">{project.closing.message}</p>
-          <strong>— {project.closing.author}</strong>
+          <p class="closing-message">Cada moño se hace con esfuerzo, dedicación y cariño. Sembramos con amor, cosechamos con gozo —y con fe en que Dios bendice el trabajo de las manos.</p>
+          <strong>— Estivaliz Flores Machado</strong>
         </div>
       </div>
     </section>
-
-    <Section id="anexos" eyebrow="14" title="Anexos">
-      <article class="card">
-        <p>{project.annexes}</p>
-      </article>
-    </Section>
+    
   </main>
 
-  <footer class="site-footer">
+  <footer id="contacto" class="site-footer">
     <div class="container footer-grid">
       <div>
         <h3>{project.brand.name}</h3>
         <p>{project.brand.slogan}</p>
         <p>{project.brand.location}</p>
       </div>
-
       <div>
         <h4>Contacto</h4>
-        <a href={whatsappLink} target="_blank" rel="noopener">
-          Escribir por WhatsApp
-        </a>
-        <p>Web catálogo y futura plataforma de ventas.</p>
+        <a href={generalWa} target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        <p>Pedidos y entrega en Trinidad.</p>
       </div>
     </div>
-
-    <div class="footer-bottom">
-      <p>
-        © {year} {project.brand.name}. Proyecto escolar con proyección real.
-      </p>
-    </div>
+    <div class="footer-bottom"><p>© {year} {project.brand.name}.</p></div>
   </footer>
 </Layout>
